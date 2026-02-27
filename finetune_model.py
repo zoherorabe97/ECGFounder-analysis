@@ -24,14 +24,14 @@ def ft_12lead_ECGFounder(device, pth, n_classes, linear_prob=False):
       use_do=False,
       n_classes=n_classes)
 
-  checkpoint = torch.load(pth, map_location=device)
+  checkpoint = torch.load(pth, map_location=device, weights_only=False)
   state_dict = checkpoint['state_dict']
 
   state_dict = {k: v for k, v in state_dict.items() if not k.startswith('dense.')} 
 
   model.load_state_dict(state_dict, strict=False)
 
-  model.dense = nn.Linear(model.dense.in_features, n_classes).to(device)
+  #model.dense = nn.Linear(model.dense.in_features, n_classes).to(device)
   # freezing model
   if linear_prob == True: 
     for name, param in model.named_parameters():
